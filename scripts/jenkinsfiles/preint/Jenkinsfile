@@ -1,7 +1,7 @@
 @Library('jenkins-pipeline-utils') _
 
 node('preint'){
-  def github_credentials_id = 'fa29964d-237e-4ecb-96bc-1350dda63f79'
+  def github_credentials_id = 'fa186416-faac-44c0-a2fa-089aed50ca17'
   properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')),
     [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
     parameters([
