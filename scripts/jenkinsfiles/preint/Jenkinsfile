@@ -1,6 +1,7 @@
 @Library('jenkins-pipeline-utils') _
 
 node('preint'){
+  def github_credentials_id = 'fa29964d-237e-4ecb-96bc-1350dda63f79'
   properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')),
     [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
     parameters([
@@ -11,9 +12,9 @@ node('preint'){
   ])
 
   stage('Get necessary artifacts'){
-    git branch: 'master', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/devops.git'
+    git branch: 'master', credentialsId: github_credentials_id, url: 'git@github.com:ca-cwds/devops.git'
     dir('de-ansible'){
-      git branch: 'master', credentialsId: '433ac100-b3c2-4519-b4d6-207c029a103b', url: 'git@github.com:ca-cwds/de-ansible.git'
+      git branch: 'master', credentialsId: github_credentials_id, url: 'git@github.com:ca-cwds/de-ansible.git'
     }
   }
 
@@ -24,7 +25,7 @@ node('preint'){
   }
 
   stage('Update manifest'){
-    updateManifest("intake", "preint", "433ac100-b3c2-4519-b4d6-207c029a103b", env.APP_VERSION)
+    updateManifest("intake", "preint", github_credentials_id, env.APP_VERSION)
   }
 
   stage ('Trigger Smoke acceptance tests') {
